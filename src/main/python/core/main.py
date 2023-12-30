@@ -4,7 +4,7 @@ import logging
 
 if __name__ == '__main__':
     spark = SparkSession.builder \
-        .appName("Spark Practical Work - Group 12") \
+        .appName("bigdata-2023-2024-g12") \
         .enableHiveSupport() \
         .getOrCreate()
     

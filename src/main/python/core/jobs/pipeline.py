@@ -1,5 +1,7 @@
 from pyspark.sql import SparkSession
 from core.jobs.extract.extract_job import Extract
+from core.jobs.analysis.exploratory_analysis_job import ExploratoryAnalysis
+from core.jobs.analysis.preprocess_job import Preprocess
 import time
 import logging
 
@@ -14,7 +16,15 @@ class DataPipeline:
 
         print()
         extract: Extract = Extract(spark=self.spark, logger=self.logger)
-        extract.run()
+        df = extract.run()
+
+        print()
+        exploratory_analysis: ExploratoryAnalysis = ExploratoryAnalysis(spark=self.spark, logger=self.logger, df=df)
+        exploratory_analysis.run()
+
+        print()
+        preprocess: Preprocess = Preprocess(spark=self.spark, logger=self.logger, df=df)
+        preprocess.run()
     
         t_elapsed = time.time()-t_start
         t_formatted = time.strftime('%H:%M:%S', time.gmtime(t_elapsed))
