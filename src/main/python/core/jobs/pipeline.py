@@ -3,7 +3,7 @@ from core.jobs.extract.extract_job import Extract
 from core.jobs.analysis.exploratory_analysis_job import ExploratoryAnalysis
 from core.jobs.analysis.preprocess_job import Preprocess
 from core.jobs.analysis.train_job import Train
-from core.jobs.analysis.predict_job import Predict
+from main.python.core.jobs.transform.predict_job import Predict
 import time
 import logging
 from distutils.util import strtobool
@@ -27,7 +27,7 @@ class DataPipeline:
             exploratory_analysis: ExploratoryAnalysis = ExploratoryAnalysis(spark=self.spark, logger=self.logger, df=df)
             exploratory_analysis.run()
 
-        #df = df.sample(0.01, seed=2024)
+        #df = df.sample(0.02, seed=2024)
 
         print()
         preprocess: Preprocess = Preprocess(spark=self.spark, logger=self.logger, df=df)

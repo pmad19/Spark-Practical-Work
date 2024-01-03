@@ -17,7 +17,10 @@ def log_method(func):
 
 @log_method
 def read_input_csv(spark: SparkSession, inputFilePath: str, schema: T.StructType) -> DataFrame:
-    inputFilePath = os.environ['PATH_PROJECT'] + "/input/" + inputFilePath
+    if inputFilePath == "all":
+        inputFilePath = [(os.environ['PATH_PROJECT'] + "/input/" + file) for file in os.listdir(os.environ['PATH_PROJECT'] + "/input/") if file != '.gitignore']
+    else:
+        inputFilePath = os.environ['PATH_PROJECT'] + "/input/" + inputFilePath
 
     schema.add('_corrupted_records', T.StringType(), True)
 

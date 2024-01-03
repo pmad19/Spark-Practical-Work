@@ -10,7 +10,6 @@ fdr_fss=$(grep "^spark\.pipeline\.default_active_fdr_fss=" "$SPARK_PROPERTIES" |
 fwe_fss=$(grep "^spark\.pipeline\.default_active_fwe_fss=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
 train=$(grep "^spark\.pipeline\.default_active_train_job=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
 
-
 echo "                                  _             ____  _  ___      "
 echo " _ __ _    _ ___ _ __   __ _ _ __| | __        / ___|| ||__ \     "
 echo "| '_ \ \  / / __| '_ \ / _\` | '__| |/ /  ___  | |  _ | |  ) |   "
@@ -20,20 +19,44 @@ echo "|_|    /_/      |_|                                             "
 echo "=================================================================="
 
 
-while getopts ":d:e:p:P:D:W:t:" flag; do
- case $flag in
-   d) dataset=${OPTARG};;
-   e) exploratory_analysis="true";;
-   p) preprocess="true";;
-   P) fpr_fss="true";;
-   D) fdr_fss="true";;
-   W) fwe_fss="true";;
-   t) train="true";;
-   \?)
-     echo "The flag introduced is not valid. Execution stopped"
-     exit 1
-   ;;
- esac
+while [ $# -gt 0 ]; do
+    key="$1"
+
+    case $key in
+        -d)
+            dataset="$2"
+            shift
+            shift
+            ;;
+        -p)
+            preprocess=true
+            shift
+            ;;
+        -t)
+            train=true
+            shift
+            ;;
+        -e)
+            exploratory_analysis=true
+            shift
+            ;;
+        -fdr)
+            fdr_fss=true
+            shift
+            ;;
+        -fpr)
+            fpr_fss=true
+            shift
+            ;;
+
+        -fwe)
+            fwe_fss=true
+            shift
+            ;;
+        *)
+            shift
+            ;;
+    esac
 done
 
 if [ ! "$dataset" = "all" ]; then
@@ -70,8 +93,8 @@ echo "Train models fss.................: $train"
 echo "=================================================================="
 echo ""
 
-spark-submit \
-    --properties-file $SPARK_PROPERTIES \
-    --master local[*] \
-    --py-files $APP_NAME-python.zip \
-    $PATH_PROJECT/src/main/python/core/main.py
+#spark-submit \
+#    --properties-file $SPARK_PROPERTIES \
+#    --master local[*] \
+#    --py-files $APP_NAME-python.zip \
+#    $PATH_PROJECT/src/main/python/core/main.py
