@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     FORMAT = "%(asctime)-15s\t%(name)s\t%(message)s"
     logging.basicConfig(level=logging.INFO, format=FORMAT)
-    logger = logging.getLogger('bd-g12')
+    logger = logging.getLogger('bigdata-2023-2024-g12')
     
     try:
         DataPipeline(spark, logger).run()

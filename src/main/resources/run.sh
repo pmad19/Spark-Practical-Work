@@ -4,23 +4,31 @@
 
 dataset=$(grep "^spark\.data\.default_input_file=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
 exploratory_analysis=$(grep "^spark\.pipeline\.default_active_exploratory_analysis=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
+preprocess=$(grep "^spark\.pipeline\.default_active_preprocess_job=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
+fpr_fss=$(grep "^spark\.pipeline\.default_active_fpr_fss=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
+fdr_fss=$(grep "^spark\.pipeline\.default_active_fdr_fss=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
+fwe_fss=$(grep "^spark\.pipeline\.default_active_fwe_fss=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
 train=$(grep "^spark\.pipeline\.default_active_train_job=" "$SPARK_PROPERTIES" | awk -F '=' '{print $2}')
 
 
 echo "                                  _             ____  _  ___      "
 echo " _ __ _    _ ___ _ __   __ _ _ __| | __        / ___|| ||__ \     "
-echo "| '_ \ \  / / __| '_ \ / _\` | '__| |/ /  ___  | |  _|| |  ) |   "
+echo "| '_ \ \  / / __| '_ \ / _\` | '__| |/ /  ___  | |  _ | |  ) |   "
 echo "| |_) \ \/ /\__ \ |_) | (_| | |  |   <  |___| | |_| || | / /    "
 echo "| .__/ \  / |___/ .__/ \__,_|_|  |_|\_\        \____||_||____|  "
 echo "|_|    /_/      |_|                                             "
 echo "=================================================================="
 
 
-while getopts ":d:e:t:" flag; do
+while getopts ":d:e:p:P:D:W:t:" flag; do
  case $flag in
    d) dataset=${OPTARG};;
-   e) exploratory_analysis=${OPTARG};;
-   t) train=${OPTARG};;
+   e) exploratory_analysis="true";;
+   p) preprocess="true";;
+   P) fpr_fss="true";;
+   D) fdr_fss="true";;
+   W) fwe_fss="true";;
+   t) train="true";;
    \?)
      echo "The flag introduced is not valid. Execution stopped"
      exit 1
@@ -43,29 +51,22 @@ if [ ! "$dataset" = "all" ]; then
 fi
 
 sed -i "s/^spark.data.input_file=.*/spark.data.input_file=$dataset/" "$SPARK_PROPERTIES"
-
-if [ ! "$exploratory_analysis" = "true" ] && [ ! "$exploratory_analysis" = "false" ]; then
-  echo "The input -e value has to be true or false"
-  echo ""
-  exit 1
-fi
-
-sed -i "s/^spark.data.input_file=.*/spark.data.input_file=$exploratory_analysis/" "$SPARK_PROPERTIES"
-
-if [ ! "$train" = "true" ] && [ ! "$train" = "false" ]; then
-  echo "The input -t value has to be true or false"
-  echo ""
-  exit 1
-fi
-
-sed -i "s/^spark.data.input_file=.*/spark.data.input_file=$train/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_exploratory_analysis=.*/spark.pipeline.active_exploratory_analysis=$exploratory_analysis/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_preprocess_job=.*/spark.pipeline.active_preprocess_job=$preprocess/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_fpr_fss=.*/spark.pipeline.active_fpr_fss=$fpr_fss/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_fdr_fss=.*/spark.pipeline.active_fdr_fss=$fdr_fss/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_fwe_fss=.*/spark.pipeline.active_fwe_fss=$fwe_fss/" "$SPARK_PROPERTIES"
+sed -i "s/^spark.pipeline.active_train_job=.*/spark.pipeline.active_train_job=$train/" "$SPARK_PROPERTIES"
 
 echo "The execution will be done with the following options."
 echo "=================================================================="
-echo "Dataset(s)..........: $dataset"
-echo "Exploratory analysis: $exploratory_analysis"
-echo "Train models........: $train"
-echo "Otra opcion.........: Enrique putero"
+echo "Dataset(s).......................: $dataset"
+echo "Exploratory analysis.............: $exploratory_analysis"
+echo "Train preprocess pipeline........: $preprocess"
+echo "Train Univariate fss (fpr).......: $fpr_fss"
+echo "Train Univariate fss (fdr).......: $fdr_fss"
+echo "Train Univariate fss (fwe).......: $fwe_fss"
+echo "Train models fss.................: $train"
 echo "=================================================================="
 echo ""
 

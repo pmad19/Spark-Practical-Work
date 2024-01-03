@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
-from core.utils.functions import log_method, read_csv
+from core.utils.functions import log_method, read_input_csv
 import logging
 
 
@@ -14,7 +14,7 @@ class Extract:
     def run(self) -> DataFrame:
         self.logger.info('Extract Job: START')
         schema: T.StructType = self.get_schema()
-        df: DataFrame = read_csv(self.spark, self.inputFile, schema)
+        df: DataFrame = read_input_csv(self.spark, self.inputFile, schema)
         df_processed: DataFrame = self.drop_forbidden_variables(df)
         df_processed: DataFrame = self.drop_cancelled_fields(df_processed)
         df_processed: DataFrame = self.format_day_of_week(df_processed)
@@ -25,11 +25,10 @@ class Extract:
         df_processed: DataFrame = self.add_day_time_columns(df_processed)
 
         #df_processed = df_processed.distinct()
-        # COMPROBAR SI VA MEJOR DROPEANDOLO O NO
         df_processed = df_processed.drop('TailNum')
 
         print()
-        print("=============================================================  PROCESSED DATASET  ==============================================================")
+        print("=========================================================================  EXTRACT DATASET  ==========================================================================")
         df_processed.show(20)
 
         self.logger.info('Extract Job: END')
@@ -108,6 +107,9 @@ class Extract:
 
     @log_method
     def create_date_time(self, df: DataFrame) -> DataFrame:
+        df = df.withColumn('DayofMonth', F.when(F.length(F.col('DayofMonth')) < 2, F.concat(F.lit("0"), 'DayofMonth')).otherwise(F.col('DayofMonth')))\
+                .withColumn('Month', F.when(F.length(F.col('Month')) < 2, F.concat(F.lit("0"), 'Month')).otherwise(F.col('Month')))
+        
         return df.withColumn('Date', F.concat_ws("/", F.col('Year'), F.col('Month'), F.col('DayofMonth')))
     
     @log_method

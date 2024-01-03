@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession, DataFrame
 import pyspark.sql.types as T
+import pyspark.sql.functions as F
 import logging
 import os
 
@@ -15,6 +16,16 @@ def log_method(func):
     return wrapper
 
 @log_method
-def read_csv(spark: SparkSession, inputFilePath: str, schema: T.StructType) -> DataFrame:
+def read_input_csv(spark: SparkSession, inputFilePath: str, schema: T.StructType) -> DataFrame:
     inputFilePath = os.environ['PATH_PROJECT'] + "/input/" + inputFilePath
-    return spark.read.csv(inputFilePath, header=True, schema=schema)
+
+    schema.add('_corrupted_records', T.StringType(), True)
+
+    df = spark.read.format("csv")\
+           .schema(schema)\
+           .option("mode", "PERMISSIVE")\
+           .option("columnNameOfCorruptRecord", "_corrupted_records")\
+           .option("header", True)\
+           .load(inputFilePath)
+    
+    return df
