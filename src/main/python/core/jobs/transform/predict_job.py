@@ -20,49 +20,75 @@ class Predict:
         print("")
 
         print("=======================  PREDICTING MODELS WITH ALL PARAMS  =======================")
-        self.predict(self.df, "LR", "all_params")
-        self.predict(self.df, "GLR", "all_params")
-        self.predict(self.df, "DTR", "all_params")
-        self.predict(self.df, "RFR", "all_params")
+        lr_predictions_all_var = self.predict(self.df, "LR", "all_params")
+        glr_predictions_all_var = self.predict(self.df, "GLR", "all_params")
+        dtr_predictions_all_var = self.predict(self.df, "DTR", "all_params")
+        rfr_predictions_all_var = self.predict(self.df, "RFR", "all_params")
 
         print("")
         print("==================  PREDICTING MODELS WITH UNIVARIATE FSS (FPR)  ==================")
-        self.predict(self.df_fpr, "LR", "fpr_fss")
-        self.predict(self.df_fpr, "GLR", "fpr_fss")
-        self.predict(self.df_fpr, "DTR", "fpr_fss")
-        self.predict(self.df_fpr, "RFR", "fpr_fss")
+        lr_predictions_fpr = self.predict(self.df_fpr, "LR", "fpr_fss")
+        glr_predictions_fpr = self.predict(self.df_fpr, "GLR", "fpr_fss")
+        dtr_predictions_fpr = self.predict(self.df_fpr, "DTR", "fpr_fss")
+        rfr_predictions_fpr = self.predict(self.df_fpr, "RFR", "fpr_fss")
 
         print("")
         print("==================  PREDICTING MODELS WITH UNIVARIATE FSS (FDR)  ==================")
-        self.predict(self.df_fdr, "LR", "fdr_fss")
-        self.predict(self.df_fdr, "GLR", "fdr_fss")
-        self.predict(self.df_fdr, "DTR", "fdr_fss")
-        self.predict(self.df_fdr, "RFR", "fdr_fss")
+        lr_predictions_fdr = self.predict(self.df_fdr, "LR", "fdr_fss")
+        glr_predictions_fdr = self.predict(self.df_fdr, "GLR", "fdr_fss")
+        dtr_predictions_fdr = self.predict(self.df_fdr, "DTR", "fdr_fss")
+        rfr_predictions_fdr = self.predict(self.df_fdr, "RFR", "fdr_fss")
 
         print("")
         print("==================  PREDICTING MODELS WITH UNIVARIATE FSS (FWE)  ==================") 
-        self.predict(self.df_fwe, "LR", "fwe_fss")
-        self.predict(self.df_fwe, "GLR", "fwe_fss")
-        self.predict(self.df_fwe, "DTR", "fwe_fss")
-        self.predict(self.df_fwe, "RFR", "fwe_fss")
+        lr_predictions_fwe = self.predict(self.df_fwe, "LR", "fwe_fss")
+        glr_predictions_fwe = self.predict(self.df_fwe, "GLR", "fwe_fss")
+        dtr_predictions_fwe = self.predict(self.df_fwe, "DTR", "fwe_fss")
+        rfr_predictions_fwe = self.predict(self.df_fwe, "RFR", "fwe_fss")
+
+        print("==================  SUMMARY  ==================")
+        summary= [
+            ("LINEAR REGRESSION - ALL VARIABLES", lr_predictions_all_var[0], lr_predictions_all_var[1]),
+			("LINEAR REGRESSION - FPR FSS", lr_predictions_fpr[0], lr_predictions_fpr[1]),
+			("LINEAR REGRESSION - FDR FSS", lr_predictions_fdr[0], lr_predictions_fdr[1]),
+			("LINEAR REGRESSION - FWE FSS", lr_predictions_fwe[0], lr_predictions_fwe[1]),
+            ("GENERALIZED LINEAR REGRESSION - ALL VARIABLES", glr_predictions_all_var[0], glr_predictions_all_var[1]),
+			("GENERALIZED LINEAR REGRESSION - FPR FSS", glr_predictions_fpr[0], glr_predictions_fpr[1]),
+            ("GENERALIZED LINEAR REGRESSION - FDR FSS", glr_predictions_fdr[0], glr_predictions_fdr[1]),
+            ("GENERALIZED LINEAR REGRESSION - FWE FSS", glr_predictions_fwe[0], glr_predictions_fwe[1]),
+			("DECISION TREE REGRESSION - ALL VARIABLES", dtr_predictions_all_var[0], dtr_predictions_all_var[1]),
+            ("DECISION TREE REGRESSION - FPR FSS", dtr_predictions_fpr[0], dtr_predictions_fpr[1]),
+			("DECISION TREE REGRESSION - FDR FSS", dtr_predictions_fdr[0], dtr_predictions_fdr[1]),
+			("DECISION TREE REGRESSION - FWE FSS", dtr_predictions_fwe[0], dtr_predictions_fwe[1]),
+            ("RANDOM FOREST REGRESSION - ALL VARIABLES", rfr_predictions_all_var[0], rfr_predictions_all_var[1]),
+			("RANDOM FOREST REGRESSION - FPR FSS", rfr_predictions_fpr[0], rfr_predictions_fpr[1]),
+			("RANDOM FOREST REGRESSION - FDR FSS", rfr_predictions_fdr[0], rfr_predictions_fdr[1]),
+			("RANDOM FOREST REGRESSION - FWE FSS", rfr_predictions_fwe[0], rfr_predictions_fwe[1])
+            ]
+
+        summary_df = self.spark.createDataFrame(summary, ["Model",'rmse', "r2"])
+        summary_df.show()
 
         self.logger.info('Train Job: END')
 
     @log_method
-    def predict(self, df: DataFrame, model_name: str, analysis_type: str):
+    def predict(self, df: DataFrame, model_name: str, analysis_type: str) -> [float, float]:
         evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("prediction"+model_name.upper()).setMetricName("rmse")
         evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("prediction"+model_name.upper()).setMetricName("r2")
         model = self.load_model(model_name.lower() + "_model_" + analysis_type.lower())
-        self.print_results(model_name.upper(), model, df, evaluator_rmse, evaluator_r2)
+        return self.print_results(model_name.upper(), model, df, evaluator_rmse, evaluator_r2)
     
-    def print_results(self, type: str, model: CrossValidatorModel, df: DataFrame, evaluator_rmse: RegressionEvaluator, evaluator_r2: RegressionEvaluator):
+    def print_results(self, type: str, model: CrossValidatorModel, df: DataFrame, evaluator_rmse: RegressionEvaluator, evaluator_r2: RegressionEvaluator) -> [float, float]:
         print("")
         print(f"============================  {type} RESULTS  ============================")
         predictions = model.transform(df)
         print("ArrDelay - Prediction results")
         predictions.select("ArrDelay", ("prediction" + type)).show()
-        print(f"Root Mean Squared Error ......: ${evaluator_rmse.evaluate(predictions)}")
-        print(f"R-Squared ....................: ${evaluator_r2.evaluate(predictions)}")
+        r2 = evaluator_r2.evaluate(predictions)
+        rmse = evaluator_rmse.evaluate(predictions)
+        print(f"Root Mean Squared Error ......: {rmse}")
+        print(f"R-Squared ....................: {r2}")
+        return rmse, r2
 
     @log_method
     def load_model(self, fileName: str) -> CrossValidatorModel:

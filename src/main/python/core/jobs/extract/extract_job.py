@@ -25,7 +25,7 @@ class Extract:
         df_processed: DataFrame = self.add_day_time_columns(df_processed)
 
         #df_processed = df_processed.distinct()
-        df_processed = df_processed.drop('TailNum')
+        df_processed = df_processed.drop(*['TailNum', 'FlightNum'])
 
         print()
         print("=========================================================================  EXTRACT DATASET  ==========================================================================")
@@ -121,7 +121,6 @@ class Extract:
     
     @log_method
     def add_day_time_columns(self, df: DataFrame) -> DataFrame:
-        # AQUI REVISAR A VER COMO FUNCIONA MEJOR EL MODELO SI CON VARIABLE DEPTIME X3 O CON VARIABLES DEPTIME CRSDEPTIME Y CRSARRTIME
         df = df.withColumn('DepTime', F.date_format(F.col('DepTime'), "HH:mm"))\
                 .withColumn('CRSDepTime', F.date_format(F.col('CRSDepTime'), "HH:mm"))\
                 .withColumn('CRSArrTime', F.date_format(F.col('CRSArrTime'), "HH:mm"))\

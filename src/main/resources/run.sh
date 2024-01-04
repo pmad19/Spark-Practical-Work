@@ -93,8 +93,8 @@ echo "Train models fss.................: $train"
 echo "=================================================================="
 echo ""
 
-#spark-submit \
-#    --properties-file $SPARK_PROPERTIES \
-#    --master local[*] \
-#    --py-files $APP_NAME-python.zip \
-#    $PATH_PROJECT/src/main/python/core/main.py
+spark-submit \
+    --properties-file $SPARK_PROPERTIES \
+    --master local[*] \
+    --py-files $APP_NAME-python.zip \
+    $PATH_PROJECT/src/main/python/core/main.py

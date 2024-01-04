@@ -19,50 +19,79 @@ class Train:
     def run(self):
         self.logger.info('Train Job: START')
         print("")
+        
+        [train_df_all_params, test_df_all_params] = self.df.randomSplit([0.7, 0.3],10)
+        [train_df_fss_fpr, test_df_fss_fpr] = self.df_fpr.randomSplit([0.7, 0.3],10)
+        [train_df_fss_fdr, test_df_fss_fdr] = self.df_fdr.randomSplit([0.7, 0.3],10)
+        [train_df_fss_fwe, test_df_fss_fwe] = self.df_fwe.randomSplit([0.7, 0.3],10)
+
+        lr_evaluator_rmse = RegressionEvaluator(labelCol="ArrDelay", predictionCol="predictionLR", metricName="rmse")
+        lr_evaluator_r2 = RegressionEvaluator(labelCol="ArrDelay", predictionCol="predictionLR", metricName="r2")
+
+        glr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionGLR").setMetricName("rmse")
+        glr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionGLR").setMetricName("r2")
+
+        dtr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionDTR").setMetricName("rmse")
+        dtr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionDTR").setMetricName("r2")
+
+        rfr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionRFR").setMetricName("rmse")
+        rfr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionRFR").setMetricName("r2")
 
         print("=======================  TRAINING MODELS WITH ALL PARAMS  =======================")
-        [train_df, test_df] = self.df.randomSplit([0.7, 0.3],10)
+        lr_predictions_all_var = self.linear_regression(train_df_all_params, test_df_all_params, "all_params", lr_evaluator_r2, lr_evaluator_rmse)
+        glr_predictions_all_var = self.generalized_linear_regression(train_df_all_params, test_df_all_params, "all_params", glr_evaluator_r2, glr_evaluator_rmse)
+        dtr_predictions_all_var = self.decision_tree(train_df_all_params, test_df_all_params, "all_params", dtr_evaluator_r2, dtr_evaluator_rmse)
+        rfr_predictions_all_var = self.random_forest(train_df_all_params, test_df_all_params, "all_params", rfr_evaluator_r2, rfr_evaluator_rmse)
 
-        self.linear_regression(train_df, test_df, "all_params")
-        self.generalized_linear_regression(train_df, test_df, "all_params")
-        self.decision_tree(train_df, test_df, "all_params")
-        self.random_forest(train_df, test_df, "all_params")
+        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FPR)  ==================")        
+        lr_predictions_fpr = self.linear_regression(train_df_fss_fpr, test_df_fss_fpr, "fpr_fss", lr_evaluator_r2, lr_evaluator_rmse)
+        glr_predictions_fpr = self.generalized_linear_regression(train_df_fss_fpr, test_df_fss_fpr, "fpr_fss", glr_evaluator_r2, glr_evaluator_rmse)
+        dtr_predictions_fpr = self.decision_tree(train_df_fss_fpr, test_df_fss_fpr, "fpr_fss", dtr_evaluator_r2, dtr_evaluator_rmse)
+        rfr_predictions_fpr = self.random_forest(train_df_fss_fpr, test_df_fss_fpr, "fpr_fss", rfr_evaluator_r2, rfr_evaluator_rmse)
 
-        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FPR)  ==================")
-        [train_df, test_df] = self.df_fpr.randomSplit([0.7, 0.3],10)
-        
-        self.linear_regression(train_df, test_df, "fpr_fss")
-        self.generalized_linear_regression(train_df, test_df, "fpr_fss")
-        self.decision_tree(train_df, test_df, "fpr_fss")
-        self.random_forest(train_df, test_df, "fpr_fss")
+        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FDR)  ==================")        
+        lr_predictions_fdr = self.linear_regression(train_df_fss_fdr, test_df_fss_fdr, "fdr_fss", lr_evaluator_r2, lr_evaluator_rmse)
+        glr_predictions_fdr = self.generalized_linear_regression(train_df_fss_fdr, test_df_fss_fdr, "fdr_fss", glr_evaluator_r2, glr_evaluator_rmse)
+        dtr_predictions_fdr = self.decision_tree(train_df_fss_fdr, test_df_fss_fdr, "fdr_fss", dtr_evaluator_r2, dtr_evaluator_rmse)
+        rfr_predictions_fdr = self.random_forest(train_df_fss_fdr, test_df_fss_fdr, "fdr_fss",  rfr_evaluator_r2, rfr_evaluator_rmse)
 
-        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FDR)  ==================")
-        [train_df, test_df] = self.df_fdr.randomSplit([0.7, 0.3],10)
-        
-        self.linear_regression(train_df, test_df, "fdr_fss")
-        self.generalized_linear_regression(train_df, test_df, "fdr_fss")
-        self.decision_tree(train_df, test_df, "fdr_fss")
-        self.random_forest(train_df, test_df, "fdr_fss")
+        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FWE)  ==================")        
+        lr_predictions_fwe = self.linear_regression(train_df_fss_fwe, test_df_fss_fwe, "fwe_fss", lr_evaluator_r2, lr_evaluator_rmse)
+        glr_predictions_fwe = self.generalized_linear_regression(train_df_fss_fwe, test_df_fss_fwe, "fwe_fss", glr_evaluator_r2, glr_evaluator_rmse)
+        dtr_predictions_fwe = self.decision_tree(train_df_fss_fwe, test_df_fss_fwe, "fwe_fss", dtr_evaluator_r2, dtr_evaluator_rmse)
+        rfr_predictions_fwe = self.random_forest(train_df_fss_fwe, test_df_fss_fwe, "fwe_fss", rfr_evaluator_r2, rfr_evaluator_rmse)
 
-        print("==================  TRAINING MODELS WITH UNIVARIATE FSS (FWE)  ==================")
-        [train_df, test_df] = self.df_fwe.randomSplit([0.7, 0.3],10)
-        
-        self.linear_regression(train_df, test_df, "fwe_fss")
-        self.generalized_linear_regression(train_df, test_df, "fwe_fss")
-        self.decision_tree(train_df, test_df, "fwe_fss")
-        self.random_forest(train_df, test_df, "fwe_fss")
+        print("==================  SUMMARY  ==================")
+        summary= [
+            ("LINEAR REGRESSION - ALL VARIABLES", lr_predictions_all_var[0], lr_predictions_all_var[1]),
+						("LINEAR REGRESSION - FPR FSS", lr_predictions_fpr[0], lr_predictions_fpr[1]),
+						("LINEAR REGRESSION - FDR FSS", lr_predictions_fdr[0], lr_predictions_fdr[1]),
+						("LINEAR REGRESSION - FWE FSS", lr_predictions_fwe[0], lr_predictions_fwe[1]),
+            ("GENERALIZED LINEAR REGRESSION - ALL VARIABLES", glr_predictions_all_var[0], glr_predictions_all_var[1]),
+						("GENERALIZED LINEAR REGRESSION - FPR FSS", glr_predictions_fpr[0], glr_predictions_fpr[1]),
+            ("GENERALIZED LINEAR REGRESSION - FDR FSS", glr_predictions_fdr[0], glr_predictions_fdr[1]),
+            ("GENERALIZED LINEAR REGRESSION - FWE FSS", glr_predictions_fwe[0], glr_predictions_fwe[1]),
+						("DECISION TREE REGRESSION - ALL VARIABLES", dtr_predictions_all_var[0], dtr_predictions_all_var[1]),
+            ("DECISION TREE REGRESSION - FPR FSS", dtr_predictions_fpr[0], dtr_predictions_fpr[1]),
+						("DECISION TREE REGRESSION - FDR FSS", dtr_predictions_fdr[0], dtr_predictions_fdr[1]),
+						("DECISION TREE REGRESSION - FWE FSS", dtr_predictions_fwe[0], dtr_predictions_fwe[1]),
+            ("RANDOM FOREST REGRESSION - ALL VARIABLES", rfr_predictions_all_var[0], rfr_predictions_all_var[1]),
+						("RANDOM FOREST REGRESSION - FPR FSS", rfr_predictions_fpr[0], rfr_predictions_fpr[1]),
+						("RANDOM FOREST REGRESSION - FDR FSS", rfr_predictions_fdr[0], rfr_predictions_fdr[1]),
+						("RANDOM FOREST REGRESSION - FWE FSS", rfr_predictions_fwe[0], rfr_predictions_fwe[1])]
+
+        summary_df = self.spark.createDataFrame(summary, ["Model",'rmse', "r2"])
+        summary_df.show()
 
         self.logger.info('Train Job: END')
 
     @log_method
-    def linear_regression(self, train_df, test_df, name_extension):
+    def linear_regression(self, train_df, test_df, name_extension, lr_evaluator_r2, lr_evaluator_rmse):
         lr = LinearRegression(labelCol="ArrDelay", featuresCol="features", predictionCol="predictionLR", maxIter=10)
         lr_paramGrid = (ParamGridBuilder()
                         .addGrid(lr.regParam, [0.1, 0.01])
                         .addGrid(lr.elasticNetParam, [1, 0.8, 0.5])
                         .build())
-        lr_evaluator_rmse = RegressionEvaluator(labelCol="ArrDelay", predictionCol="predictionLR", metricName="rmse")
-        lr_evaluator_r2 = RegressionEvaluator(labelCol="ArrDelay", predictionCol="predictionLR", metricName="r2")
         lr_cv = CrossValidator(estimator=lr, 
                             evaluator=lr_evaluator_rmse, 
                             estimatorParamMaps=lr_paramGrid, 
@@ -70,10 +99,10 @@ class Train:
                             parallelism=3)
         lr_model = lr_cv.fit(train_df)
         self.export_model(lr_model, "lr_model_"+name_extension)
-        self.print_results("LR", lr_model, test_df, lr_evaluator_rmse, lr_evaluator_r2)
+        return self.print_results("LR", lr_model, test_df, lr_evaluator_rmse, lr_evaluator_r2)
 
     @log_method
-    def generalized_linear_regression(self, train_df, test_df, name_extension):
+    def generalized_linear_regression(self, train_df, test_df, name_extension, glr_evaluator_r2, glr_evaluator_rmse):
         glr = (GeneralizedLinearRegression()
 				.setLabelCol("ArrDelay")
 				.setFeaturesCol("features")
@@ -81,24 +110,20 @@ class Train:
 				.setLink("identity")
 				.setFamily("gaussian")
 				.setMaxIter(10))
-        
         glr_paramGrid = ParamGridBuilder().addGrid(glr.regParam, [0.1, 0.01]).build()
-        glr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionGLR").setMetricName("rmse")
-        glr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionGLR").setMetricName("r2")
         glr_cv = CrossValidator().setEstimator(glr).setEvaluator(glr_evaluator_rmse).setEstimatorParamMaps(glr_paramGrid)\
 				.setNumFolds(3).setParallelism(3)
         glr_model = glr_cv.fit(train_df)
         self.export_model(glr_model, "glr_model_"+name_extension)
-        self.print_results("GLR", glr_model, test_df, glr_evaluator_rmse, glr_evaluator_r2)
+        return self.print_results("GLR", glr_model, test_df, glr_evaluator_rmse, glr_evaluator_r2)
+        
 
     @log_method
-    def decision_tree(self, train_df, test_df, name_extension):
+    def decision_tree(self, train_df, test_df, name_extension, dtr_evaluator_r2, dtr_evaluator_rmse):
         dtr = (DecisionTreeRegressor()
 				.setLabelCol("ArrDelay")
 				.setFeaturesCol("features")
 				.setPredictionCol("predictionDTR"))
-        dtr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionDTR").setMetricName("rmse")
-        dtr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionDTR").setMetricName("r2")
         dtr_cv = (CrossValidator()
 				.setEstimator(dtr)
 				.setEvaluator(dtr_evaluator_rmse)
@@ -107,16 +132,14 @@ class Train:
 				.setParallelism(3))
         dtr_model = dtr_cv.fit(train_df)
         self.export_model(dtr_model, "dtr_model_"+name_extension)
-        self.print_results("DTR", dtr_model, test_df, dtr_evaluator_rmse, dtr_evaluator_r2)
+        return self.print_results("DTR", dtr_model, test_df, dtr_evaluator_rmse, dtr_evaluator_r2)
 
     @log_method
-    def random_forest(self, train_df, test_df, name_extension):
+    def random_forest(self, train_df, test_df, name_extension, rfr_evaluator_r2, rfr_evaluator_rmse):
         rfr = (RandomForestRegressor()
 				.setLabelCol("ArrDelay")
 				.setFeaturesCol("features")
 				.setPredictionCol("predictionRFR"))
-        rfr_evaluator_rmse = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionRFR").setMetricName("rmse")
-        rfr_evaluator_r2 = RegressionEvaluator().setLabelCol("ArrDelay").setPredictionCol("predictionRFR").setMetricName("r2")
         rfr_cv = (CrossValidator()
 				.setEstimator(rfr)
 				.setEvaluator(rfr_evaluator_rmse)
@@ -125,7 +148,7 @@ class Train:
 				.setParallelism(3))
         rfr_model = rfr_cv.fit(train_df)
         self.export_model(rfr_model, "rfr_model_"+name_extension)
-        self.print_results("RFR", rfr_model, test_df, rfr_evaluator_rmse, rfr_evaluator_r2)
+        return self.print_results("RFR", rfr_model, test_df, rfr_evaluator_rmse, rfr_evaluator_r2)
     
     @log_method
     def print_results(self, type: str, model: CrossValidatorModel, test_df: DataFrame, evaluator_rmse: RegressionEvaluator, evaluator_r2: RegressionEvaluator):
@@ -134,8 +157,11 @@ class Train:
         predictions = model.transform(test_df)
         print("ArrDelay - Prediction results")
         predictions.select("ArrDelay", ("prediction" + type)).show()
-        print(f"Root Mean Squared Error ......: ${evaluator_rmse.evaluate(predictions)}")
-        print(f"R-Squared ....................: ${evaluator_r2.evaluate(predictions)}")
+        rmse =  evaluator_rmse.evaluate(predictions)
+        r2 = evaluator_r2.evaluate(predictions)
+        print(f"Root Mean Squared Error ......: ${rmse}")
+        print(f"R-Squared ....................: ${r2}")
+        return rmse, r2
     
     @log_method
     def export_model(self, model: CrossValidatorModel, fileName: str):

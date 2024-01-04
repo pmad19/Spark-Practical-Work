@@ -23,7 +23,7 @@ class Preprocess:
         self.logger.info('Preprocess Job: START')
         print("")
 
-        df = self.df.drop(*['CRSDepTime', 'CRSElapsedTime', "FlightNum"])
+        df = self.df.drop(*['CRSDepTime', 'CRSElapsedTime'])
 
         df: DataFrame = self.cast_columns_types(df)
         df: DataFrame = self.get_features_dataframe(df)
