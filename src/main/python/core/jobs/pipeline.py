@@ -27,18 +27,17 @@ class DataPipeline:
             exploratory_analysis: ExploratoryAnalysis = ExploratoryAnalysis(spark=self.spark, logger=self.logger, df=df)
             exploratory_analysis.run()
 
-        print()
+        if self.active_train:       
+            df = df.sample(0.1, seed=2024)
+        print() 
         preprocess: Preprocess = Preprocess(spark=self.spark, logger=self.logger, df=df)
         df, df_fpr, df_fdr, df_fwe = preprocess.run()
-
-        if self.active_train:
-            print()
-            self.logger.info(f"Number of obsv of the dataframe {df.count()}")
-            self.logger.info(f"Number of obsv of the sample {df.count()*0.002}")
-            df = df.sample(0.002, seed=2024)
+        
+        if self.active_train:   
+            print() 
             train: Train = Train(spark=self.spark, logger=self.logger, df=df, df_fdr=df_fdr, df_fpr=df_fpr, df_fwe=df_fwe)
             train.run()
-
+        
         predict: Predict = Predict(spark=self.spark, logger=self.logger, df=df, df_fdr=df_fdr, df_fpr=df_fpr, df_fwe=df_fwe)
         predict.run()
 

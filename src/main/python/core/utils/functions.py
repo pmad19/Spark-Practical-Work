@@ -16,17 +16,17 @@ def log_method(func):
     return wrapper
 
 @log_method
-def read_input_csv(spark: SparkSession, inputFilePath: str, schema: T.StructType) -> DataFrame:
+def read_input_csv(spark: SparkSession, inputFilePath: str, schema: T.StructType, read_mode: str) -> DataFrame:
     if inputFilePath == "all":
-        inputFilePath = [(os.environ['PATH_PROJECT'] + "/input/" + file) for file in os.listdir(os.environ['PATH_PROJECT'] + "/input/") if file != '.gitignore']
+        inputFilePath = [(os.environ['PATH_PROJECT'] + "/input/" + file) for file in os.listdir(os.environ['PATH_PROJECT'] + "/input/") if ((file != "plane-data.csv") & (file != '.gitignore'))]
     else:
         inputFilePath = os.environ['PATH_PROJECT'] + "/input/" + inputFilePath
 
-    schema.add('_corrupted_records', T.StringType(), True)
+    schema.add('_corrupted_records', T.StringType(), False)
 
     df = spark.read.format("csv")\
            .schema(schema)\
-           .option("mode", "PERMISSIVE")\
+           .option("mode", read_mode)\
            .option("columnNameOfCorruptRecord", "_corrupted_records")\
            .option("header", True)\
            .load(inputFilePath)
