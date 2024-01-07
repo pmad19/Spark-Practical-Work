@@ -19,7 +19,7 @@ class Train:
     def run(self):
         self.logger.info('Train Job: START')
         print("")
-        
+
         [train_df_all_params, test_df_all_params] = self.df.randomSplit([0.7, 0.3],10)
         [train_df_fss_fpr, test_df_fss_fpr] = self.df_fpr.randomSplit([0.7, 0.3],10)
         [train_df_fss_fdr, test_df_fss_fdr] = self.df_fdr.randomSplit([0.7, 0.3],10)

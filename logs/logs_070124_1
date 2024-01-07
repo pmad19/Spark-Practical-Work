@@ -1,0 +1,731 @@
+                                  _             ____  _  ___      
+ _ __ _    _ ___ _ __   __ _ _ __| | __        / ___|| ||__ \     
+| '_ \ \  / / __| '_ \ / _` | '__| |/ /  ___  | |  _ | |  ) |   
+| |_) \ \/ /\__ \ |_) | (_| | |  |   <  |___| | |_| || | / /    
+| .__/ \  / |___/ .__/ \__,_|_|  |_|\_\        \____||_||____|  
+|_|    /_/      |_|                                             
+==================================================================
+The execution will be done with the following options.
+==================================================================
+Dataset(s).......................: 2008.csv
+Exploratory analysis.............: false
+Train preprocess pipeline........: false
+Train Univariate fss (fpr).......: false
+Train Univariate fss (fdr).......: false
+Train Univariate fss (fwe).......: false
+Train models fss.................: false
+==================================================================
+
+24/01/07 17:16:21 WARN Utils: Your hostname, paco-HP-Pavilion-Notebook resolves to a loopback address: 127.0.1.1; using 192.168.100.191 instead (on interface wlo1)
+24/01/07 17:16:21 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+24/01/07 17:16:22 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+24/01/07 17:16:23 INFO SparkContext: Running Spark version 3.3.1
+24/01/07 17:16:23 INFO ResourceUtils: ==============================================================
+24/01/07 17:16:23 INFO ResourceUtils: No custom resources configured for spark.driver.
+24/01/07 17:16:23 INFO ResourceUtils: ==============================================================
+24/01/07 17:16:23 INFO SparkContext: Submitted application: bigdata-2023-2024-g12
+24/01/07 17:16:23 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+24/01/07 17:16:23 INFO ResourceProfile: Limiting resource is cpu
+24/01/07 17:16:23 INFO ResourceProfileManager: Added ResourceProfile id: 0
+24/01/07 17:16:23 INFO SecurityManager: Changing view acls to: paco
+24/01/07 17:16:23 INFO SecurityManager: Changing modify acls to: paco
+24/01/07 17:16:23 INFO SecurityManager: Changing view acls groups to: 
+24/01/07 17:16:23 INFO SecurityManager: Changing modify acls groups to: 
+24/01/07 17:16:23 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(paco); groups with view permissions: Set(); users  with modify permissions: Set(paco); groups with modify permissions: Set()
+24/01/07 17:16:23 INFO Utils: Successfully started service 'sparkDriver' on port 38135.
+24/01/07 17:16:23 INFO SparkEnv: Registering MapOutputTracker
+24/01/07 17:16:23 INFO SparkEnv: Registering BlockManagerMaster
+24/01/07 17:16:23 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+24/01/07 17:16:23 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+24/01/07 17:16:23 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+24/01/07 17:16:23 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-1514e49a-ab3a-40af-af7b-cf34922bdafe
+24/01/07 17:16:23 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+24/01/07 17:16:23 INFO SparkEnv: Registering OutputCommitCoordinator
+24/01/07 17:16:23 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+24/01/07 17:16:23 INFO SparkContext: Added file file:///home/paco/Spark-Practical-Work/src/main/resources/bigdata-2023-2024-g12-python.zip at file:///home/paco/Spark-Practical-Work/src/main/resources/bigdata-2023-2024-g12-python.zip with timestamp 1704644183053
+24/01/07 17:16:23 INFO Utils: Copying /home/paco/Spark-Practical-Work/src/main/resources/bigdata-2023-2024-g12-python.zip to /tmp/spark-aef7090a-c388-4e64-b280-b21d35b1a430/userFiles-877d92c4-d2ac-4246-ba2f-118d2e82b28e/bigdata-2023-2024-g12-python.zip
+24/01/07 17:16:23 INFO Executor: Starting executor ID driver on host 192.168.100.191
+24/01/07 17:16:23 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+24/01/07 17:16:23 INFO Executor: Fetching file:///home/paco/Spark-Practical-Work/src/main/resources/bigdata-2023-2024-g12-python.zip with timestamp 1704644183053
+24/01/07 17:16:23 INFO Utils: /home/paco/Spark-Practical-Work/src/main/resources/bigdata-2023-2024-g12-python.zip has been previously copied to /tmp/spark-aef7090a-c388-4e64-b280-b21d35b1a430/userFiles-877d92c4-d2ac-4246-ba2f-118d2e82b28e/bigdata-2023-2024-g12-python.zip
+24/01/07 17:16:23 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 38553.
+24/01/07 17:16:23 INFO NettyBlockTransferService: Server created on 192.168.100.191:38553
+24/01/07 17:16:23 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+24/01/07 17:16:23 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 192.168.100.191, 38553, None)
+24/01/07 17:16:23 INFO BlockManagerMasterEndpoint: Registering block manager 192.168.100.191:38553 with 434.4 MiB RAM, BlockManagerId(driver, 192.168.100.191, 38553, None)
+24/01/07 17:16:23 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 192.168.100.191, 38553, None)
+24/01/07 17:16:23 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 192.168.100.191, 38553, None)
+24/01/07 17:16:24 INFO SharedState: Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir.
+24/01/07 17:16:24 INFO SharedState: Warehouse path is 'file:/home/paco/Spark-Practical-Work/src/main/resources/spark-warehouse'.
+
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Extract Job: START
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Start get_flights_schema
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Finish get_flights_schema
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Start get_planes_schema
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Finish get_planes_schema
+2024-01-07 17:16:24,773	bigdata-2023-2024-g12	Start read_input_csv
+2024-01-07 17:16:26,107	bigdata-2023-2024-g12	Finish read_input_csv
+2024-01-07 17:16:26,107	bigdata-2023-2024-g12	Start read_input_csv
+2024-01-07 17:16:26,134	bigdata-2023-2024-g12	Finish read_input_csv
+2024-01-07 17:16:26,299	bigdata-2023-2024-g12	Start drop_forbidden_variables
+2024-01-07 17:16:26,316	bigdata-2023-2024-g12	Finish drop_forbidden_variables
+2024-01-07 17:16:26,316	bigdata-2023-2024-g12	Start drop_cancelled_fields
+2024-01-07 17:16:26,335	bigdata-2023-2024-g12	Finish drop_cancelled_fields
+2024-01-07 17:16:26,335	bigdata-2023-2024-g12	Start format_day_of_week
+2024-01-07 17:16:26,368	bigdata-2023-2024-g12	Finish format_day_of_week
+2024-01-07 17:16:26,368	bigdata-2023-2024-g12	Start format_time_variables
+2024-01-07 17:16:26,514	bigdata-2023-2024-g12	Finish format_time_variables
+2024-01-07 17:16:26,514	bigdata-2023-2024-g12	Start create_date_time
+2024-01-07 17:16:26,618	bigdata-2023-2024-g12	Finish create_date_time
+2024-01-07 17:16:26,618	bigdata-2023-2024-g12	Start add_season_column
+2024-01-07 17:16:26,664	bigdata-2023-2024-g12	Finish add_season_column
+2024-01-07 17:16:26,676	bigdata-2023-2024-g12	Start add_day_time_columns
+2024-01-07 17:16:26,814	bigdata-2023-2024-g12	Finish add_day_time_columns
+
+=========================================================================  EXTRACT DATASET  ==========================================================================
++---------+-------+----------+----------+-------------+--------------+--------+--------+------+----+--------+-------+------------------+------------+------+----------+------+
+|DayOfWeek|DepTime|CRSDepTime|CRSArrTime|UniqueCarrier|CRSElapsedTime|ArrDelay|DepDelay|Origin|Dest|Distance|TaxiOut|_corrupted_records|manufacturer|plYear|      Date|Season|
++---------+-------+----------+----------+-------------+--------------+--------+--------+------+----+--------+-------+------------------+------------+------+----------+------+
+| Thursday|      2|         2|         2|           WN|            70|      16|      18|   HOU| LIT|     393|      9|              null|      BOEING|  2006|2008/01/03|Winter|
+| Thursday|      1|         1|         2|           WN|            85|       2|       5|   HOU| MAF|     441|      8|              null|      BOEING|  1992|2008/01/03|Winter|
+| Thursday|      4|         4|         4|           WN|            85|      -4|      -6|   HOU| MAF|     441|     14|              null|      BOEING|  2007|2008/01/03|Winter|
+| Thursday|      1|         1|         2|           WN|           130|      -2|       8|   HOU| MCO|     848|      7|              null|      BOEING|  1986|2008/01/03|Winter|
+| Thursday|      2|         2|         3|           WN|           130|      16|      23|   HOU| MCO|     848|     10|              null|      BOEING|  2004|2008/01/03|Winter|
+| Thursday|      4|         4|         4|           WN|           125|       0|       4|   HOU| MCO|     848|      7|              null|      BOEING|  2004|2008/01/03|Winter|
+| Thursday|      3|         3|         4|           WN|           125|       3|       8|   HOU| MCO|     848|      7|              null|      BOEING|  2004|2008/01/03|Winter|
+| Thursday|      1|         1|         1|           WN|           130|       5|       2|   HOU| MCO|     848|     19|              null|      BOEING|  2007|2008/01/03|Winter|
+| Thursday|      3|         3|         4|           WN|           150|      -5|      -1|   HOU| MDW|     937|     15|              null|      BOEING|  2007|2008/01/03|Winter|
+| Thursday|      2|         2|         2|           WN|           145|      26|      28|   HOU| MDW|     937|     13|              null|      BOEING|  1991|2008/01/03|Winter|
+| Thursday|      4|         4|         4|           WN|           150|       6|      15|   HOU| MDW|     937|      8|              null|      BOEING|  1998|2008/01/03|Winter|
+| Thursday|      1|         1|         1|           WN|           145|      56|      53|   HOU| MDW|     937|     10|              null|      BOEING|  2005|2008/01/03|Winter|
+| Thursday|      3|         3|         3|           WN|           150|      39|      19|   HOU| MDW|     937|      8|              null|      BOEING|  1996|2008/01/03|Winter|
+| Thursday|      2|         2|         2|           WN|           145|      -9|       2|   HOU| MDW|     937|      6|              null|      BOEING|  1997|2008/01/03|Winter|
+| Thursday|      1|         1|         2|           WN|           145|       1|      14|   HOU| MDW|     937|      7|              null|      BOEING|  2003|2008/01/03|Winter|
+| Thursday|      3|         3|         3|           WN|            60|      -6|      -2|   HOU| MSY|     303|      8|              null|      BOEING|  2006|2008/01/03|Winter|
+| Thursday|      4|         4|         4|           WN|            55|      50|      50|   HOU| MSY|     303|      8|              null|      BOEING|  2007|2008/01/03|Winter|
+| Thursday|      1|         1|         1|           WN|            60|      -4|       0|   HOU| MSY|     303|      8|              null|      BOEING|  1990|2008/01/03|Winter|
+| Thursday|      1|         1|         1|           WN|            60|      11|       6|   HOU| MSY|     303|     12|              null|      BOEING|  1988|2008/01/03|Winter|
+| Thursday|      2|         2|         2|           WN|            60|      47|      52|   HOU| MSY|     303|      7|              null|      BOEING|  1985|2008/01/03|Winter|
++---------+-------+----------+----------+-------------+--------------+--------+--------+------+----+--------+-------+------------------+------------+------+----------+------+
+only showing top 20 rows
+
+2024-01-07 17:16:28,766	bigdata-2023-2024-g12	Extract Job: END
+
+2024-01-07 17:16:28,767	bigdata-2023-2024-g12	Preprocess Job: START
+
+2024-01-07 17:16:28,776	bigdata-2023-2024-g12	Start cast_columns_types
+2024-01-07 17:16:28,812	bigdata-2023-2024-g12	Finish cast_columns_types
+2024-01-07 17:16:28,812	bigdata-2023-2024-g12	Start get_features_dataframe
+2024-01-07 17:16:31,694	bigdata-2023-2024-g12	Finish get_features_dataframe
+2024-01-07 17:16:31,694	bigdata-2023-2024-g12	Start apply_univariate_fss_fpr
+2024-01-07 17:16:31,851	bigdata-2023-2024-g12	Finish apply_univariate_fss_fpr
+2024-01-07 17:16:31,851	bigdata-2023-2024-g12	Start apply_univariate_fss_fdr
+2024-01-07 17:16:32,063	bigdata-2023-2024-g12	Finish apply_univariate_fss_fdr
+2024-01-07 17:16:32,063	bigdata-2023-2024-g12	Start apply_univariate_fss_fwe
+2024-01-07 17:16:32,266	bigdata-2023-2024-g12	Finish apply_univariate_fss_fwe
+
+============================  FSS SUMMARY  ============================
+Number of features without FSS....................................: 2465
+Number of features after applying false positive rate (fpr) FSS...: 899
+Number of features after applying false discovery rate (fdr) FSS..: 633
+Number of features after applying family-wise error (fwe) FSS.....: 175
+
+2024-01-07 17:16:34,090	bigdata-2023-2024-g12	Preprocess Job: END
+2024-01-07 17:16:34,090	bigdata-2023-2024-g12	Predict Job: START
+
+=======================  PREDICTING MODELS WITH ALL PARAMS  =======================
+2024-01-07 17:16:34,090	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:16:34,102	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:16:34,965	bigdata-2023-2024-g12	Finish load_model
+
+============================  LR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|       predictionLR|
++--------+-------------------+
+|      16| 15.645817193031862|
+|       2| 0.3475732308811206|
+|      -4|  -5.76676582515841|
+|      -2|  2.144749162913494|
+|      16|  18.39170256593627|
+|       0|-1.0572410215119712|
+|       3|  1.601356810031449|
+|       5| 5.6355480738091615|
+|      -5| -0.900921935413558|
+|      26| 24.131444642792438|
+|       6|  9.358710839378617|
+|      56|  43.57671782975302|
+|      39| 12.334836148308279|
+|      -9| -3.634503573234423|
+|       1|  7.286385015926239|
+|      -6|-7.5597124237657045|
+|      50| 50.637000564488474|
+|      -4| -4.654727720669002|
+|      11| 5.7013338228954815|
+|      47| 52.364038955010884|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.851620412169519
+R-Squared ....................: 0.8355681345382591
+2024-01-07 17:16:53,848	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:16:53,848	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:16:53,852	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:16:54,338	bigdata-2023-2024-g12	Finish load_model
+
+============================  GLR RESULTS  ============================
+ArrDelay - Prediction results
++--------+--------------------+
+|ArrDelay|       predictionGLR|
++--------+--------------------+
+|      16|  12.897352222486347|
+|       2|-0.12511327226167168|
+|      -4|  -4.214559199710266|
+|      -2|  1.1740503798181408|
+|      16|    17.9097805226977|
+|       0|  -2.488748386312807|
+|       3|   0.631736748437504|
+|       5|  5.0744698642563435|
+|      -5| -0.8740451954003561|
+|      26|  24.282748094776423|
+|       6|   8.646133169111977|
+|      56|   44.02875918997137|
+|      39|  11.860116021397971|
+|      -9|  -4.428197348965568|
+|       1|    6.90612386573639|
+|      -6|  -9.423620501635298|
+|      50|   49.22166749143685|
+|      -4|  -7.278034559806883|
+|      11|   3.531523779238398|
+|      47|   51.26896642568346|
++--------+--------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.680498446110478
+R-Squared ....................: 0.8390991333548543
+2024-01-07 17:17:12,233	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:17:12,234	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:17:12,239	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:17:12,743	bigdata-2023-2024-g12	Finish load_model
+
+============================  DTR RESULTS  ============================
+ArrDelay - Prediction results
++--------+------------------+
+|ArrDelay|     predictionDTR|
++--------+------------------+
+|      16| 14.87545184910557|
+|       2|1.5236506763931852|
+|      -4| -7.79686351638114|
+|      -2|1.5236506763931852|
+|      16| 14.87545184910557|
+|       0|1.5236506763931852|
+|       3|1.5236506763931852|
+|       5| 8.310277940838672|
+|      -5| -7.79686351638114|
+|      26| 14.87545184910557|
+|       6| 14.87545184910557|
+|      56| 42.84944729253444|
+|      39| 14.87545184910557|
+|      -9|1.5236506763931852|
+|       1|1.5236506763931852|
+|      -6| -7.79686351638114|
+|      50|58.439843593342694|
+|      -4| -7.79686351638114|
+|      11|1.5236506763931852|
+|      47|58.439843593342694|
++--------+------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 17.996832793546883
+R-Squared ....................: 0.7880512697301847
+2024-01-07 17:17:30,305	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:17:30,305	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:17:30,309	bigdata-2023-2024-g12	Start load_model
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.apache.spark.util.SizeEstimator$ (file:/home/paco/.local/lib/python3.8/site-packages/pyspark/jars/spark-core_2.12-3.3.1.jar) to field java.math.BigInteger.mag
+WARNING: Please consider reporting this to the maintainers of org.apache.spark.util.SizeEstimator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2024-01-07 17:17:31,077	bigdata-2023-2024-g12	Finish load_model
+
+============================  RFR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|      predictionRFR|
++--------+-------------------+
+|      16| 13.034710606929874|
+|       2|-2.1270519949798965|
+|      -4| 0.4128112867899471|
+|      -2|0.21699581107602345|
+|      16| 15.014360372639208|
+|       0| 2.4367539307134907|
+|       3| 1.7519140885613105|
+|       5|-1.2776833532780631|
+|      -5|-1.4382559728634883|
+|      26| 15.014360372639208|
+|       6| 15.279868771073074|
+|      56| 31.632961094117142|
+|      39| 14.296634076714193|
+|      -9|-0.5162146820018528|
+|       1|  5.217036613017751|
+|      -6|-1.6253895188080165|
+|      50|  55.65785382322058|
+|      -4|-3.7095872415547886|
+|      11|-2.2111722070524427|
+|      47|  60.79547412984707|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 20.658538537469163
+R-Squared ....................: 0.7207212801717169
+2024-01-07 17:17:51,936	bigdata-2023-2024-g12	Finish predict
+
+==================  PREDICTING MODELS WITH UNIVARIATE FSS (FPR)  ==================
+2024-01-07 17:17:51,936	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:17:51,939	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:17:52,377	bigdata-2023-2024-g12	Finish load_model
+
+============================  LR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|       predictionLR|
++--------+-------------------+
+|      16|  16.17077779163933|
+|       2| 0.5034849016459542|
+|      -4| -5.774842701707191|
+|      -2| 2.2918065215985766|
+|      16|  18.90486547654201|
+|       0| -0.977761919277145|
+|       3| 1.8689157736208644|
+|       5|  5.771423896414895|
+|      -5|-0.7347417624925157|
+|      26|  24.66358928019269|
+|       6|  9.567227297915544|
+|      56| 44.290511974335075|
+|      39| 12.820201829113717|
+|      -9|-3.4339815411402705|
+|       1|  7.497950233520313|
+|      -6|-7.2250177584316075|
+|      50| 51.470949772035425|
+|      -4|  -4.51988422727464|
+|      11|  5.942545094846044|
+|      47| 53.425080019579426|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.953970241253133
+R-Squared ....................: 0.8334378910683241
+2024-01-07 17:18:08,810	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:18:08,810	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:18:08,814	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:18:09,315	bigdata-2023-2024-g12	Finish load_model
+
+============================  GLR RESULTS  ============================
+ArrDelay - Prediction results
++--------+--------------------+
+|ArrDelay|       predictionGLR|
++--------+--------------------+
+|      16|  11.841173956464104|
+|       2| -1.5272404669968864|
+|      -4| -6.0562486524917745|
+|      -2|8.147879001398906E-4|
+|      16|   17.05904540663346|
+|       0|  -3.681577925019951|
+|       3| -0.5109835553169546|
+|       5|   3.930947705645849|
+|      -5| -1.9475623657842789|
+|      26|  23.576146754384524|
+|       6|  7.7642621007030925|
+|      56|   43.59948730449912|
+|      39|  11.004757079248577|
+|      -9|  -5.457772448073854|
+|       1|   5.998094414693412|
+|      -6| -10.986636836863909|
+|      50|   48.55673765563239|
+|      -4|  -8.662778217357015|
+|      11|  2.2568923720886005|
+|      47|   50.62439411563349|
++--------+--------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.904503182885435
+R-Squared ....................: 0.8344691784468159
+2024-01-07 17:18:25,308	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:18:25,308	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:18:25,312	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:18:25,738	bigdata-2023-2024-g12	Finish load_model
+
+============================  DTR RESULTS  ============================
+ArrDelay - Prediction results
++--------+------------------+
+|ArrDelay|     predictionDTR|
++--------+------------------+
+|      16|14.746207306207307|
+|       2|1.9375986054568122|
+|      -4|-7.741626644024601|
+|      -2|1.9375986054568122|
+|      16|14.746207306207307|
+|       0|1.9375986054568122|
+|       3|1.9375986054568122|
+|       5|1.9375986054568122|
+|      -5|-7.741626644024601|
+|      26|27.611105038802055|
+|       6|14.746207306207307|
+|      56|40.038638651502495|
+|      39|14.746207306207307|
+|      -9|1.9375986054568122|
+|       1|1.9375986054568122|
+|      -6|-7.741626644024601|
+|      50| 55.15891446472351|
+|      -4|-7.741626644024601|
+|      11|1.9375986054568122|
+|      47| 55.15891446472351|
++--------+------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 18.44604409367273
+R-Squared ....................: 0.7773384947613025
+2024-01-07 17:18:42,223	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:18:42,223	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:18:42,228	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:18:42,789	bigdata-2023-2024-g12	Finish load_model
+
+============================  RFR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|      predictionRFR|
++--------+-------------------+
+|      16|  14.45743511871654|
+|       2| -1.054703376166928|
+|      -4|-0.6988860289221105|
+|      -2|0.26949903362115196|
+|      16| 15.424951319444801|
+|       0| 2.4900063337309706|
+|       3|  2.635131048666077|
+|       5|-0.3241244706739847|
+|      -5| -1.795238607143651|
+|      26|  15.80221554966935|
+|       6| 2.8212815924168817|
+|      56| 31.704540072944205|
+|      39| 15.688067126264821|
+|      -9| 1.6846960907640955|
+|       1|   5.72110940356533|
+|      -6|-1.6006375470224785|
+|      50|  63.86739270200876|
+|      -4|-3.4422412413252514|
+|      11|-1.3044652236158147|
+|      47|  61.78621914858064|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 20.688440301847784
+R-Squared ....................: 0.7199122229243222
+2024-01-07 17:19:03,370	bigdata-2023-2024-g12	Finish predict
+
+==================  PREDICTING MODELS WITH UNIVARIATE FSS (FDR)  ==================
+2024-01-07 17:19:03,370	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:19:03,377	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:19:03,821	bigdata-2023-2024-g12	Finish load_model
+
+============================  LR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|       predictionLR|
++--------+-------------------+
+|      16|  16.17077779163933|
+|       2| 0.5034849016459542|
+|      -4| -5.774842701707191|
+|      -2| 2.2918065215985766|
+|      16|  18.90486547654201|
+|       0| -0.977761919277145|
+|       3| 1.8689157736208644|
+|       5|  5.771423896414895|
+|      -5|-0.7347417624925157|
+|      26|  24.66358928019269|
+|       6|  9.567227297915544|
+|      56| 44.290511974335075|
+|      39| 12.820201829113717|
+|      -9|-3.4339815411402705|
+|       1|  7.497950233520313|
+|      -6|-7.2250177584316075|
+|      50| 51.470949772035425|
+|      -4|  -4.51988422727464|
+|      11|  5.942545094846044|
+|      47| 53.425080019579426|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.953970241253133
+R-Squared ....................: 0.8334378910683241
+2024-01-07 17:19:19,824	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:19:19,824	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:19:19,828	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:19:20,306	bigdata-2023-2024-g12	Finish load_model
+
+============================  GLR RESULTS  ============================
+ArrDelay - Prediction results
++--------+--------------------+
+|ArrDelay|       predictionGLR|
++--------+--------------------+
+|      16|  11.841173956464104|
+|       2| -1.5272404669968864|
+|      -4| -6.0562486524917745|
+|      -2|8.147879001398906E-4|
+|      16|   17.05904540663346|
+|       0|  -3.681577925019951|
+|       3| -0.5109835553169546|
+|       5|   3.930947705645849|
+|      -5| -1.9475623657842789|
+|      26|  23.576146754384524|
+|       6|  7.7642621007030925|
+|      56|   43.59948730449912|
+|      39|  11.004757079248577|
+|      -9|  -5.457772448073854|
+|       1|   5.998094414693412|
+|      -6| -10.986636836863909|
+|      50|   48.55673765563239|
+|      -4|  -8.662778217357015|
+|      11|  2.2568923720886005|
+|      47|   50.62439411563349|
++--------+--------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.904503182885435
+R-Squared ....................: 0.8344691784468159
+2024-01-07 17:19:36,387	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:19:36,387	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:19:36,391	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:19:36,840	bigdata-2023-2024-g12	Finish load_model
+
+============================  DTR RESULTS  ============================
+ArrDelay - Prediction results
++--------+------------------+
+|ArrDelay|     predictionDTR|
++--------+------------------+
+|      16|14.746207306207307|
+|       2|1.9375986054568122|
+|      -4|-7.741626644024601|
+|      -2|1.9375986054568122|
+|      16|14.746207306207307|
+|       0|1.9375986054568122|
+|       3|1.9375986054568122|
+|       5|1.9375986054568122|
+|      -5|-7.741626644024601|
+|      26|27.611105038802055|
+|       6|14.746207306207307|
+|      56|40.038638651502495|
+|      39|14.746207306207307|
+|      -9|1.9375986054568122|
+|       1|1.9375986054568122|
+|      -6|-7.741626644024601|
+|      50| 55.15891446472351|
+|      -4|-7.741626644024601|
+|      11|1.9375986054568122|
+|      47| 55.15891446472351|
++--------+------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 18.44604409367273
+R-Squared ....................: 0.7773384947613025
+2024-01-07 17:19:52,914	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:19:52,914	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:19:52,918	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:19:53,466	bigdata-2023-2024-g12	Finish load_model
+
+============================  RFR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|      predictionRFR|
++--------+-------------------+
+|      16|  14.45743511871654|
+|       2| -1.054703376166928|
+|      -4|-0.6988860289221105|
+|      -2|0.26949903362115196|
+|      16| 15.424951319444801|
+|       0| 2.4900063337309706|
+|       3|  2.635131048666077|
+|       5|-0.3241244706739847|
+|      -5| -1.795238607143651|
+|      26|  15.80221554966935|
+|       6| 2.8212815924168817|
+|      56| 31.704540072944205|
+|      39| 15.688067126264821|
+|      -9| 1.6846960907640955|
+|       1|   5.72110940356533|
+|      -6|-1.6006375470224785|
+|      50|  63.86739270200876|
+|      -4|-3.4422412413252514|
+|      11|-1.3044652236158147|
+|      47|  61.78621914858064|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 20.688440301847784
+R-Squared ....................: 0.7199122229243222
+2024-01-07 17:20:13,290	bigdata-2023-2024-g12	Finish predict
+
+==================  PREDICTING MODELS WITH UNIVARIATE FSS (FWE)  ==================
+2024-01-07 17:20:13,290	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:20:13,294	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:20:13,664	bigdata-2023-2024-g12	Finish load_model
+
+============================  LR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|       predictionLR|
++--------+-------------------+
+|      16|  16.17077779163933|
+|       2| 0.5034849016459542|
+|      -4| -5.774842701707191|
+|      -2| 2.2918065215985766|
+|      16|  18.90486547654201|
+|       0| -0.977761919277145|
+|       3| 1.8689157736208644|
+|       5|  5.771423896414895|
+|      -5|-0.7347417624925157|
+|      26|  24.66358928019269|
+|       6|  9.567227297915544|
+|      56| 44.290511974335075|
+|      39| 12.820201829113717|
+|      -9|-3.4339815411402705|
+|       1|  7.497950233520313|
+|      -6|-7.2250177584316075|
+|      50| 51.470949772035425|
+|      -4|  -4.51988422727464|
+|      11|  5.942545094846044|
+|      47| 53.425080019579426|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.953970241253133
+R-Squared ....................: 0.8334378910683241
+2024-01-07 17:20:29,671	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:20:29,671	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:20:29,674	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:20:30,041	bigdata-2023-2024-g12	Finish load_model
+
+============================  GLR RESULTS  ============================
+ArrDelay - Prediction results
++--------+--------------------+
+|ArrDelay|       predictionGLR|
++--------+--------------------+
+|      16|  11.841173956463706|
+|       2| -1.5272404669970001|
+|      -4|  -6.056248652492457|
+|      -2|8.147879000262037E-4|
+|      16|   17.05904540663289|
+|       0|  -3.681577925020065|
+|       3| -0.5109835553171251|
+|       5|   3.930947705645508|
+|      -5|  -1.947562365784563|
+|      26|    23.5761467543839|
+|       6|   7.764262100702865|
+|      56|   43.59948730449821|
+|      39|   11.00475707924818|
+|      -9|  -5.457772448074024|
+|       1|   5.998094414693298|
+|      -6| -10.986636836864307|
+|      50|   48.55673765563125|
+|      -4|  -8.662778217357356|
+|      11|   2.256892372088089|
+|      47|   50.62439411563224|
++--------+--------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 15.904503182887217
+R-Squared ....................: 0.8344691784467788
+2024-01-07 17:20:46,462	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:20:46,462	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:20:46,466	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:20:46,931	bigdata-2023-2024-g12	Finish load_model
+
+============================  DTR RESULTS  ============================
+ArrDelay - Prediction results
++--------+------------------+
+|ArrDelay|     predictionDTR|
++--------+------------------+
+|      16|14.746207306207307|
+|       2|1.9375986054568122|
+|      -4|-7.741626644024601|
+|      -2|1.9375986054568122|
+|      16|14.746207306207307|
+|       0|1.9375986054568122|
+|       3|1.9375986054568122|
+|       5|1.9375986054568122|
+|      -5|-7.741626644024601|
+|      26|27.611105038802055|
+|       6|14.746207306207307|
+|      56|40.038638651502495|
+|      39|14.746207306207307|
+|      -9|1.9375986054568122|
+|       1|1.9375986054568122|
+|      -6|-7.741626644024601|
+|      50| 55.15891446472351|
+|      -4|-7.741626644024601|
+|      11|1.9375986054568122|
+|      47| 55.15891446472351|
++--------+------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 18.44604409367273
+R-Squared ....................: 0.7773384947613025
+2024-01-07 17:21:03,299	bigdata-2023-2024-g12	Finish predict
+2024-01-07 17:21:03,299	bigdata-2023-2024-g12	Start predict
+2024-01-07 17:21:03,302	bigdata-2023-2024-g12	Start load_model
+2024-01-07 17:21:03,878	bigdata-2023-2024-g12	Finish load_model
+
+============================  RFR RESULTS  ============================
+ArrDelay - Prediction results
++--------+-------------------+
+|ArrDelay|      predictionRFR|
++--------+-------------------+
+|      16|  14.45743511871654|
+|       2| -1.054703376166928|
+|      -4|-0.6988860289221105|
+|      -2|0.26949903362115196|
+|      16| 15.424951319444801|
+|       0| 2.4900063337309706|
+|       3|  2.635131048666077|
+|       5|-0.3241244706739847|
+|      -5| -1.795238607143651|
+|      26|  15.80221554966935|
+|       6| 2.8212815924168817|
+|      56| 31.704540072944205|
+|      39| 15.688067126264821|
+|      -9| 1.6846960907640955|
+|       1|   5.72110940356533|
+|      -6|-1.6006375470224785|
+|      50|  63.86739270200876|
+|      -4|-3.4422412413252514|
+|      11|-1.3044652236158147|
+|      47|  61.78621914858064|
++--------+-------------------+
+only showing top 20 rows
+
+Root Mean Squared Error ......: 20.688440301847784
+R-Squared ....................: 0.7199122229243222
+2024-01-07 17:21:23,983	bigdata-2023-2024-g12	Finish predict
+==================  SUMMARY  ==================
++--------------------+------------------+------------------+
+|               Model|              rmse|                r2|
++--------------------+------------------+------------------+
+|LINEAR REGRESSION...|15.851620412169519|0.8355681345382591|
+|LINEAR REGRESSION...|15.953970241253133|0.8334378910683241|
+|LINEAR REGRESSION...|15.953970241253133|0.8334378910683241|
+|LINEAR REGRESSION...|15.953970241253133|0.8334378910683241|
+|GENERALIZED LINEA...|15.680498446110478|0.8390991333548543|
+|GENERALIZED LINEA...|15.904503182885435|0.8344691784468159|
+|GENERALIZED LINEA...|15.904503182885435|0.8344691784468159|
+|GENERALIZED LINEA...|15.904503182887217|0.8344691784467788|
+|DECISION TREE REG...|17.996832793546883|0.7880512697301847|
+|DECISION TREE REG...| 18.44604409367273|0.7773384947613025|
+|DECISION TREE REG...| 18.44604409367273|0.7773384947613025|
+|DECISION TREE REG...| 18.44604409367273|0.7773384947613025|
+|RANDOM FOREST REG...|20.658538537469163|0.7207212801717169|
+|RANDOM FOREST REG...|20.688440301847784|0.7199122229243222|
+|RANDOM FOREST REG...|20.688440301847784|0.7199122229243222|
+|RANDOM FOREST REG...|20.688440301847784|0.7199122229243222|
++--------------------+------------------+------------------+
+
+2024-01-07 17:21:24,548	bigdata-2023-2024-g12	Train Job: END
+2024-01-07 17:21:24,548	bigdata-2023-2024-g12	Total execution time: 00:04:59.7755

@@ -13,8 +13,11 @@ class Extract:
         
     def run(self) -> DataFrame:
         self.logger.info('Extract Job: START')
-        schema: T.StructType = self.get_schema()
-        df: DataFrame = read_input_csv(self.spark, self.inputFile, schema)
+        flights_schema: T.StructType = self.get_flights_schema()
+        planes_schema: T.StructType = self.get_planes_schema()
+        flights_df: DataFrame = read_input_csv(self.spark, self.inputFile, flights_schema, "PERMISSIVE")
+        planes_df: DataFrame = read_input_csv(self.spark, "plane-data.csv", planes_schema, "DROPMALFORMED")
+        df: DataFrame = self.join_planes_flights(planes_df, flights_df)
         df_processed: DataFrame = self.drop_forbidden_variables(df)
         df_processed: DataFrame = self.drop_cancelled_fields(df_processed)
         df_processed: DataFrame = self.format_day_of_week(df_processed)
@@ -35,7 +38,7 @@ class Extract:
         return df_processed
     
     @log_method
-    def get_schema(self) -> T.StructType:
+    def get_flights_schema(self) -> T.StructType:
         """
         Get data schema
         Returns:
@@ -72,6 +75,30 @@ class Extract:
             T.StructField("SecurityDelay", T.IntegerType(), True),
             T.StructField("LateAircraftDelay", T.IntegerType(), True),
         ])
+    
+    @log_method
+    def get_planes_schema(self) -> T.StructType:
+        """
+        Get data schema
+        Returns:
+            A struct with the schema
+        """
+        return T.StructType([
+            T.StructField("TailNum", T.StringType(), True),
+            T.StructField("type", T.StringType(), True),
+            T.StructField("manufacturer", T.StringType(), True),
+            T.StructField("issue_date", T.StringType(), True),
+            T.StructField("model", T.StringType(), True),
+            T.StructField("status", T.StringType(), True),
+            T.StructField("aircraft_type", T.StringType(), True),
+            T.StructField("engine_type", T.StringType(), True),
+            T.StructField("year", T.IntegerType(), True)
+        ])
+    
+    def join_planes_flights(self, planes_df: DataFrame, flights_df: DataFrame) -> DataFrame:
+        planes_df = planes_df.select(["manufacturer", "year", "TailNum"]).withColumnRenamed("TailNum", "pTN").withColumnRenamed("year", "plYear")
+        df: DataFrame = flights_df.join(planes_df, flights_df["TailNum"] == planes_df["pTN"], "INNER").drop("pTN")
+        return df.filter(F.col("manufacturer") != "null")
     
     @log_method
     def drop_forbidden_variables(self, df: DataFrame) -> DataFrame:

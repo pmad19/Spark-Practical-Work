@@ -47,13 +47,14 @@ class Preprocess:
     
     @log_method
     def get_features_dataframe(self, df: DataFrame) -> DataFrame:
-        numeric_columns_list = ['DepDelay', 'Distance', 'TaxiOut']
+        numeric_columns_list = ['DepDelay', 'Distance', 'TaxiOut', 'plYear']
         string_columns_list = ['DayOfWeek', 'UniqueCarrier', 'Origin', 'Dest', 
-                               'Date', 'Season', 'DepTime', 'CRSArrTime']
+                               'Date', 'Season', 'DepTime', 'CRSArrTime', #'type',
+                               'manufacturer']
 
         if self.with_preprocess_training:
             # Impute null values
-            imputer = Imputer().setInputCols(['ArrDelay']).setOutputCols(['ArrDelay']).setStrategy("mean")
+            imputer = Imputer().setInputCols(['ArrDelay', 'plYear']).setOutputCols(['ArrDelay', 'plYear']).setStrategy("mean")
 
             # Index categorical variables
             index_columns = [col + "_index" for col in string_columns_list]

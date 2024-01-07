@@ -29,9 +29,11 @@ to download and use the entire dataset. A small piece should be sufficient, one 
 development environment and does not take too long to process. The Spark application you
 develop, however, should be able to work with any subset of this dataset, and not be limited to a
 specific piece.
+For a correct execution of the application, it is necessary to add one (at least) or more datasets 
+from this source (e.g. 2008.csv) and the csv file plane-data.csv to the input folder.
 
 ## How to run the project
-### Create a venv
+### Create a venv (just if it is necessary)
     cd Spark-Practical-Work
     python3 -m venv venv
     source venv/bin/activate
@@ -41,7 +43,8 @@ specific piece.
 ##### Load the virtual environment (just once)
     cd Spark-Practical-Work
     source venv/bin/activate
-##### Run the application
+##### Run the application (this is for default mode)
     cd Spark-Practical-Work/src/main/resources
-    sh install.sh && run.sh
+    sh install.sh 
+    run.sh
     
